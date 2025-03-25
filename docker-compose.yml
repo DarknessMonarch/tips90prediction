@@ -1,0 +1,15 @@
+services:
+  tips90frontend:
+    container_name: tips90frontend
+    restart: unless-stopped
+    build: .
+    image: tips90frontend
+    networks:
+      - nginxproxymanager_default
+    ports:
+      - "7300:7400"
+
+networks:
+  nginxproxymanager_default:
+    name: nginxproxymanager_default
+    external: true

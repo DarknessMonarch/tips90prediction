@@ -1,0 +1,152 @@
+@media screen {
+  .sideContainer {
+    left: 0;
+    gap: 30px;
+    z-index: 100;
+    height: 100%;
+    display: none;
+    padding: 10px;
+    position: absolute;
+    align-items: center;
+    flex-direction: column;
+    transform: translateX(-200%);
+    transition: transform 0.3s ease-in-out;
+    min-width: var(--sidenav-width-mobile);
+    background:var(--background-image);
+  }
+
+  .toggleMenuButton {
+    top: 0;
+    right: 0;
+    width: 100%;
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+    justify-content: start;
+  }
+
+  .toggleMenuIcon {
+    font-size: 40px;
+    color: var(--light-color);
+  }
+
+  .toggleMenuIcon:hover {
+    color: var(--tertiary-color);
+  }
+
+  .hideSideNav {
+    transform: translateX(-200%);
+  }
+
+  .showSideNav {
+    display: flex;
+    transform: translateX(0);
+  }
+
+  .sideTop {
+    gap: 30px;
+    width: 100%;
+    display: flex;
+    height: inherit;
+    align-items: center;
+    flex-direction: column;
+    overflow: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .sideLink {
+    cursor: pointer;
+  }
+
+  .sideLink:hover .linkIcon {
+    color: var(--tertiary-color);
+  }
+
+  .innerSideLink {
+    display: flex;
+    position: relative;
+    align-items: center;
+  }
+
+  .sideLink:hover .innerSideLink h1 {
+    display: flex;
+  }
+
+  .innerSideLink h1 {
+    background-color: var(--tertiary-color);
+    font-weight: var(--font-poppins-extralight);
+    color: var(--primary-color);
+    text-transform: capitalize;
+    border-radius: 6px;
+    position: absolute;
+    font-size: 0.8rem;
+    text-wrap: nowrap;
+    display: none;
+    padding: 10px;
+    left: 70px;
+  }
+
+  .activeLink .linkIcon {
+    color: var(--tertiary-color);
+  }
+
+  .linkIcon {
+    font-size: 24px;
+    color: var(--light-color);
+  }
+
+  .sideBottomContainer {
+    gap: 20px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+
+ 
+  .linkIcon {
+    font-size: 28px;
+    color: var(--dark-light);
+  }
+
+}
+
+/* using it as global style for larger devices  */
+@media only screen and (min-width: 48em) {
+  .sideContainer {
+    gap: 20px;
+    left: auto;
+    position: relative;
+    width: var(--sidenav-width);
+    min-width: var(--sidenav-width);
+  }
+
+  .linkIcon {
+    font-size: 28px;
+  }
+
+
+  .logo {
+    height: auto;
+    width: 80px;
+  }
+
+  .sideTop {
+    overflow: visible;
+  }
+  
+}
+
+/* ipad pro screens & laptop */
+@media only screen and (min-width: 49em) and (max-width: 64em) {
+}
+
+/* large screens : Desktop and 4k screens */
+
+@media only screen and (min-width: 64.063em) and (max-width: 90em) {
+}
+
+/* 5k screens and above */
+@media only screen and (min-width: 91em) {
+}
