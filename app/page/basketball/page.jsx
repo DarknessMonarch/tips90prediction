@@ -5,7 +5,7 @@ import Advert from "@/app/components/Advert";
 import Nothing from "@/app/components/Nothing";
 import styles from "@/app/styles/football.module.css";
 import MobileFilter from "@/app/components/MobileFilter";
-import SportTable from "@/app/components/cards/SportTable";
+import SportTable from "@/app/components/cards/SportCardTable";
 import EmptySportImg from "@/public/assets/emptySport.png";
 import { usePredictionStore } from "@/app/store/Prediction";
 import { useSearchParams, usePathname } from "next/navigation";
