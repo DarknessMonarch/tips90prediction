@@ -1,13 +1,14 @@
 @media screen {
 .dropdownContainer {
   height: 40px;
-  width: 140px;
   display: flex;
   padding: 10px;
   cursor: pointer;
+  min-width: 140px;
   position: relative;
   align-items: center;
   border-radius: 15px;
+  width: fit-content;
   flex-direction: column;
   justify-content: center;
   background-image: var(--background-image);

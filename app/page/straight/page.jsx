@@ -8,10 +8,9 @@ import MobileFilter from "@/app/components/MobileFilter";
 import SportTable from "@/app/components/cards/SportCardTable";
 import EmptySportImg from "@/public/assets/emptySport.png";
 import { usePredictionStore } from "@/app/store/Prediction";
-import { useSearchParams, usePathname, useRouter } from "next/navigation";
+import { useSearchParams, usePathname } from "next/navigation";
 
 export default function Straight() {
-  const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const currentSport = pathname.split("/").pop();
@@ -86,12 +85,6 @@ export default function Straight() {
         </div>
       </div>
     );
-  };
-
-  const handleCardClick = (id) => {
-    if (id !== "empty") {
-      router.push(`${pathname}/${id}`, { scroll: false });
-    }
   };
 
   if (loading) {

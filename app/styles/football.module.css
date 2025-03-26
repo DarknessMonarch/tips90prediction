@@ -23,7 +23,7 @@
   .emptyCard {
     width: 100%;
     min-width: 0;
-    height: 350px;
+    height: 200px;
     border-radius: 15px;
     border: 1px solid var(--line-color);
   }

@@ -71,15 +71,12 @@ const FileInput = ({ onChange, idImage, label, required }) => {
   );
 };
 
-// Define sport options for the dropdown
 const sportOptions = [
   { value: "football", label: "Football" },
   { value: "basketball", label: "Basketball" },
   { value: "tennis", label: "Tennis" },
-  { value: "vip", label: "VIP" },
 ];
 
-// Define formation options
 const dropdownData = [
   { value: "W", label: "Win" },
   { value: "L", label: "Loss" },
@@ -168,7 +165,7 @@ export default function SportForm({ Title }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const { fetchSports, fetchFootballPredictions } = useSportStore();
-  
+
   // Determine category and sport from pathname
   const getCategoryFromPathname = () => {
     if (pathname.includes("/banker")) return "banker";
@@ -177,9 +174,9 @@ export default function SportForm({ Title }) {
     if (pathname.includes("/basketball")) return "basketball";
     if (pathname.includes("/vip")) return "vip";
     if (pathname.includes("/tennis")) return "tennis";
-    return "banker"; 
+    return "banker";
   };
-  
+
   const sportType = getCategoryFromPathname();
   const formType = searchParams.get("form") || "Add";
   const predictionId = searchParams.get("id");
@@ -227,7 +224,8 @@ export default function SportForm({ Title }) {
   // Helper function to determine default sport based on title
   const getDefaultSport = (title) => {
     const titleLower = title.toLowerCase();
-    if (["banker", "straight", "winning"].includes(titleLower)) return "football";
+    if (["banker", "straight", "winning"].includes(titleLower))
+      return "football";
     if (titleLower === "basketball") return "basketball";
     if (titleLower === "tennis") return "tennis";
     if (titleLower === "vip") return "vip"; // VIP can be either sport
@@ -289,19 +287,21 @@ export default function SportForm({ Title }) {
     // Set initial selected sport based on Title
     const initialSport = getDefaultSport(Title);
     setSelectedSport(initialSport);
-    
+
     // Ensure the appropriate data is loaded based on the sport
     const loadData = async () => {
-      const isFootball = ["football", "banker", "straight", "winning"].includes(initialSport.toLowerCase());
+      const isFootball = ["football", "banker", "straight", "winning"].includes(
+        initialSport.toLowerCase()
+      );
       if (isFootball) {
         await fetchFootballPredictions();
       } else {
         await fetchSports();
       }
     };
-    
+
     loadData();
-    
+
     // Handle edit mode by populating form with existing data
     if (formType === "Edit" && predictionId) {
       const prediction = predictions.find((p) => p._id === predictionId);
@@ -331,7 +331,15 @@ export default function SportForm({ Title }) {
         });
       }
     }
-  }, [formType, predictionId, predictions, sportType, Title, fetchFootballPredictions, fetchSports]);
+  }, [
+    formType,
+    predictionId,
+    predictions,
+    sportType,
+    Title,
+    fetchFootballPredictions,
+    fetchSports,
+  ]);
 
   // Handle image uploads
   const handleImageUpload = (e, field) => {
@@ -379,7 +387,7 @@ export default function SportForm({ Title }) {
             leagueImage: teamData.leagueIcon,
           }));
         })
-        .catch(error => {
+        .catch((error) => {
           console.error("Error fetching league icon:", error);
           toast.error("Failed to load league image");
         });
@@ -399,9 +407,11 @@ export default function SportForm({ Title }) {
             [imageField]: teamData.teamIcon,
           }));
         })
-        .catch(error => {
+        .catch((error) => {
           console.error("Error fetching team icon:", error);
-          toast.error(`Failed to load ${teamData.isTeamA ? "team A" : "team B"} image`);
+          toast.error(
+            `Failed to load ${teamData.isTeamA ? "team A" : "team B"} image`
+          );
         });
     }
   };
@@ -472,7 +482,7 @@ export default function SportForm({ Title }) {
         toast.success(
           `${Title} ${formType === "Edit" ? "updated" : "added"} successfully`
         );
-        
+
         // Navigate back after successful submission
         setTimeout(() => {
           router.back();
@@ -495,7 +505,11 @@ export default function SportForm({ Title }) {
   const shouldShowSportSelection = () => {
     const titleLower = Title.toLowerCase();
     // For specific sport categories, don't show selection
-    if (["banker", "straight", "winning", "basketball", "tennis"].includes(titleLower)) {
+    if (
+      ["banker", "straight", "winning", "basketball", "tennis"].includes(
+        titleLower
+      )
+    ) {
       return false;
     }
     // Show selection for VIP since it can be multiple sports
@@ -602,8 +616,11 @@ export default function SportForm({ Title }) {
             </div>
           ))}
 
-          {/* Only show formations for football */}
-          {(formData.sport === "football" || ["banker", "straight", "winning"].includes(formData.category.toLowerCase())) && (
+          {(formData.sport === "football" ||
+            ["banker", "straight", "winning"].includes(
+              formData.category.toLowerCase()
+            ) ||
+            formData.category.toLowerCase() === "vip") && (
             <>
               <FormationSection
                 team="A"

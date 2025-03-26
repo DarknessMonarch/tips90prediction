@@ -127,7 +127,7 @@
     object-fit: cover;
     border-radius: 360%;
     object-position: center;
-    border: 1px solid var(--tertiary-color);
+    border: 1px solid var(--line-color);
   }
 
   .notificationContainer {

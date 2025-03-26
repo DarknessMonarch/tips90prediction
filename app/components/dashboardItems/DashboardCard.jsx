@@ -105,7 +105,7 @@ export default function DashboardCard() {
       name: "revenue",
       icon: MoneyIcon,
       title: "Monthly Revenue",
-      revenue: `$ ${formatNumber(dashboardStats.monthlyRevenue)}`,
+      revenue: `Ksh ${formatNumber(dashboardStats.monthlyRevenue)}`,
     },
     {
       name: "users",
@@ -142,7 +142,7 @@ export default function DashboardCard() {
     }
 
     if(cardName === 'sports') {
-      router.push(`${pathname}?${params.toString()}&link=football`);
+      router.push(`${pathname}?${params.toString()}&link=banker`);
     } else {
       router.push(`${pathname}?${params.toString()}`);
     }

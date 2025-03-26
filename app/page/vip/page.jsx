@@ -6,14 +6,13 @@ import { useEffect, useState } from "react";
 import Nothing from "@/app/components/Nothing"
 import { useAuthStore } from "@/app/store/Auth";
 import styles from "@/app/styles/vip.module.css";
-import SportCard from "@/app/components/cards/SportCard";
+import SportTable from "@/app/components/cards/SportCardTable";
 import MobileFilter from "@/app/components/MobileFilter";
 import EmptySportImg from "@/public/assets/emptySport.png";
 import { usePredictionStore } from "@/app/store/Prediction";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 
 export default function Vip() {
-  const emptyCardCount = 20;
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -87,19 +86,18 @@ export default function Vip() {
     setFilteredPredictions(sortedPredictions);
   }, [predictions, searchKey, leagueKey, countryKey]);
 
-  const renderEmptyCards = () => {
-    return Array(emptyCardCount)
-      .fill(0)
-      .map((_, index) => (
-        <div
-          className={`${styles.emptyCard} skeleton`}
-          key={`empty-${index}`}
-          role="presentation"
-          aria-hidden="true"
-        />
-      ));
+  const renderEmptyState = () => {
+    return (
+      <div className={`${styles.emptyTable} skeleton`}>
+        <div className={styles.emptyTableHeader}></div>
+        <div className={styles.emptyTableRows}>
+          {Array(5).fill(0).map((_, index) => (
+            <div className={styles.emptyTableRow} key={`empty-row-${index}`}></div>
+          ))}
+        </div>
+      </div>
+    );
   };
-
 
   if (!isAuth) {
     return (
@@ -127,7 +125,7 @@ export default function Vip() {
         <Advert />
         <MobileFilter predictions={predictions} title={currentSport} />
         <div className={styles.content}>
-          {renderEmptyCards()}
+          {renderEmptyState()}
         </div>
       </div>
     );
@@ -142,39 +140,39 @@ export default function Vip() {
       <MobileFilter predictions={predictions} title={currentSport} />
 
       {shouldShowNothing ? (
-      <Nothing
-              Alt="No prediction"
-              NothingImage={EmptySportImg}
-              Text={
-                searchKey || leagueKey || countryKey
-                  ? "No predictions match your filters"
-                  : "No predictions available for this date"
-              }
-            />
+        <Nothing
+          Alt="No prediction"
+          NothingImage={EmptySportImg}
+          Text={
+            searchKey || leagueKey || countryKey
+              ? "No predictions match your filters"
+              : "No predictions available for this date"
+          }
+        />
       ) : (
         <div className={styles.content}>
-          {filteredPredictions.map((data) => (
-            <SportCard
-              key={data._id}
-              formationA={data.formationA || []}
-              formationB={data.formationB || []}
-              leagueImage={data.leagueImage}
-              teamAImage={data.teamAImage}
-              teamBImage={data.teamBImage}
-              tip={data.tip}
-              league={data.league}
-              teamA={data.teamA}
-              teamB={data.teamB}
-              teamAscore={data.teamAscore}
-              teamBscore={data.teamBscore}
-              time={data.time}
-              status={data.status}
-              sport={data.sport}
-              category={data.category}
-              showScore={data.showScore}
-              currentDate={dateKey}
-            />
-          ))}
+          <SportTable
+            games={filteredPredictions.map(data => ({
+              _id: data._id,
+              formationA: data.formationA || [],
+              formationB: data.formationB || [],
+              leagueImage: data.leagueImage,
+              teamAImage: data.teamAImage,
+              teamBImage: data.teamBImage,
+              tip: data.tip,
+              league: data.league,
+              teamA: data.teamA,
+              teamB: data.teamB,
+              teamAscore: data.teamAscore,
+              teamBscore: data.teamBscore,
+              time: data.time,
+              status: data.status,
+              sport: data.sport,
+              category: data.category,
+              showScore: data.showScore
+            }))}
+            currentDate={dateKey}
+          />
         </div>
       )}
     </div>

@@ -5,13 +5,12 @@ import Advert from "@/app/components/Advert";
 import Nothing from "@/app/components/Nothing";
 import styles from "@/app/styles/football.module.css";
 import MobileFilter from "@/app/components/MobileFilter";
-import SportCard from "@/app/components/cards/SportCard";
+import SportTable from "@/app/components/cards/SportCardTable";
 import EmptySportImg from "@/public/assets/emptySport.png";
 import { usePredictionStore } from "@/app/store/Prediction";
 import { useSearchParams, usePathname } from "next/navigation";
 
-export default function Football() {
-  const emptyCardCount = 20;
+export default function Winning() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const currentSport = pathname.split("/").pop();
@@ -75,24 +74,25 @@ export default function Football() {
     setFilteredPredictions(sortedPredictions);
   }, [predictions, searchKey, leagueKey, countryKey]);
 
-  const renderEmptyCards = () => {
-    return Array(emptyCardCount)
-      .fill(0)
-      .map((_, index) => (
-        <div
-          className={`${styles.emptyCard} skeleton`}
-          key={`empty-${index}`}
-        />
-      ));
+  const renderEmptyState = () => {
+    return (
+      <div className={`${styles.emptyTable} skeleton`}>
+        <div className={styles.emptyTableHeader}></div>
+        <div className={styles.emptyTableRows}>
+          {Array(5).fill(0).map((_, index) => (
+            <div className={styles.emptyTableRow} key={`empty-row-${index}`}></div>
+          ))}
+        </div>
+      </div>
+    );
   };
-
 
   if (loading) {
     return (
       <div className={styles.footballContainer}>
         <Advert />
         <MobileFilter predictions={predictions} title={currentSport} />
-        <div className={styles.content}>{renderEmptyCards()}</div>
+        <div className={styles.content}>{renderEmptyState()}</div>
       </div>
     );
   }
@@ -118,29 +118,28 @@ export default function Football() {
         />
       ) : (
         <div className={styles.content}>
-          {filteredPredictions.map((data) => (
-            <SportCard
-              key={data._id}
-              formationA={data.formationA || []}
-              formationB={data.formationB || []}
-              leagueImage={data.leagueImage}
-              teamAImage={data.teamAImage}
-              teamBImage={data.teamBImage}
-              tip={data.tip}
-              league={data.league}
-              teamA={data.teamA}
-              teamB={data.teamB}
-              teamAscore={data.teamAscore}
-              teamBscore={data.teamBscore}
-              time={data.time}
-              status={data.status}
-              sport={data.sport}
-              category={data.category}
-              showScore={data.showScore}
-              currentDate={dateKey}
-              onClick={() => handleCardClick(data._id)}
-            />
-          ))}
+          <SportTable
+            games={filteredPredictions.map(data => ({
+              _id: data._id,
+              formationA: data.formationA || [],
+              formationB: data.formationB || [],
+              leagueImage: data.leagueImage,
+              teamAImage: data.teamAImage,
+              teamBImage: data.teamBImage,
+              tip: data.tip,
+              league: data.league,
+              teamA: data.teamA,
+              teamB: data.teamB,
+              teamAscore: data.teamAscore,
+              teamBscore: data.teamBscore,
+              time: data.time,
+              status: data.status,
+              sport: data.sport,
+              category: data.category,
+              showScore: data.showScore
+            }))}
+            currentDate={dateKey}
+          />
         </div>
       )}
     </div>

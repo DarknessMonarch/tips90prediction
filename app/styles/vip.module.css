@@ -68,7 +68,7 @@
   .emptyCard {
     width: 100%;
     min-width: 0;
-    height: 350px;
+    height: 200px;
     border-radius: 15px;
     border: 1px solid var(--line-color);
   }
@@ -78,12 +78,8 @@
 @media only screen and (min-width: 48em) {
   .content {
     min-height: auto;
-    grid-template-columns: repeat(2, minmax(300px, 1fr));
   }
 
-  .emptyCard {
-    height: 410px;
-  }
 
 }
 
@@ -91,21 +87,15 @@
 @media only screen and (min-width: 49em) and (max-width: 64em) {
   .content {
     min-height: auto;
-    grid-template-columns: repeat(2, minmax(300px, 1fr));
   }
 }
 
 /* large screens : Desktop and 4k screens */
 
 @media only screen and (min-width: 64.063em) and (max-width: 90em) {
-  .content {
-    grid-template-columns: repeat(3, minmax(300px, 1fr));
-  }
 }
 
 /* 5k screens and above */
 @media only screen and (min-width: 91em) {
-  .content {
-    grid-template-columns: repeat(3, minmax(300px, 1fr));
-  }
+
 }

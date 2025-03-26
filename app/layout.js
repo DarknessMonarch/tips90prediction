@@ -155,7 +155,7 @@ export default function RootLayout({ children }) {
             style: {
               background: "#080a30",
               border: "1px solid #ff3269",
-              color: "#efeff1",
+              color: "#ff3269",
               borderRadius: "15px",
             },
           }}

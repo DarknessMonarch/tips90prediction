@@ -28,7 +28,7 @@ export default function Basketball() {
   useEffect(() => {
     const loadPredictions = async () => {
       try {
-        const result = await fetchPredictions(dateKey, currentSport.toLocaleLowerCase());
+        const result = await fetchPredictions(dateKey, currentSport);
         setHasAttemptedLoad(true);
       } catch (error) {
         console.error("Error loading predictions:", error);
@@ -86,8 +86,6 @@ export default function Basketball() {
       </div>
     );
   };
-
-
 
   if (loading) {
     return (
