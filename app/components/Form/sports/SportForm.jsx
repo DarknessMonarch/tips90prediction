@@ -71,6 +71,94 @@ const FileInput = ({ onChange, idImage, label, required }) => {
   );
 };
 
+const TimeInput = ({ value, onChange, required, error }) => {
+  // Parse and format the date correctly
+  const formatTimeForInput = (timeStr) => {
+    if (!timeStr) return '';
+    
+    try {
+      // If it already has the correct format with T separator
+      if (timeStr.includes('T')) {
+        // Ensure we don't lose the hours when formatting
+        const date = new Date(timeStr);
+        if (!isNaN(date.getTime())) {
+          // Format maintaining the exact hours
+          return timeStr;
+        }
+      }
+      
+      // Handle case where time is formatted as just hours (like "20.00")
+      if (timeStr.includes('.')) {
+        const [hours, minutes] = timeStr.split('.');
+        // Create a date with the EXACT hours specified
+        const date = new Date();
+        date.setHours(parseInt(hours, 10), parseInt(minutes, 10) || 0, 0, 0);
+        return date.toISOString().slice(0, 16); // Format as YYYY-MM-DDTHH:MM
+      }
+      
+      // Handle other date formats
+      const date = new Date(timeStr);
+      if (!isNaN(date.getTime())) {
+        return date.toISOString().slice(0, 16);
+      }
+    } catch (e) {
+      console.error("Invalid date format:", e);
+    }
+    
+    return timeStr;
+  };
+
+  // Direct event handler for the time picker
+  const handleTimeChange = (e) => {
+    const rawValue = e.target.value;
+    console.log("Raw selected time:", rawValue);
+    
+    // Extract the hour and minute directly from the input
+    // This bypasses any automatic formatting that might change the hours
+    const [datePart, timePart] = rawValue.split('T');
+    if (timePart) {
+      const [hours, minutes] = timePart.split(':');
+      console.log(`Selected hours: ${hours}, minutes: ${minutes}`);
+      
+      // Create a date object with the exact selected hours
+      const date = new Date(rawValue);
+      
+      // Double-check that hours weren't changed
+      if (date.getHours() !== parseInt(hours, 10)) {
+        console.warn(`Hour mismatch! Selected: ${hours}, Date object: ${date.getHours()}`);
+        // Force the correct hours if there's a mismatch
+        date.setHours(parseInt(hours, 10));
+      }
+      
+      // Use the ISO string but preserve the exact hours
+      onChange({ 
+        target: { 
+          name: 'time', 
+          value: date.toISOString().slice(0, 16),
+          // Store the raw selected hours to double-check later
+          rawHours: hours
+        } 
+      });
+    } else {
+      // If there's no time part, just pass the raw value
+      onChange({ target: { name: 'time', value: rawValue } });
+    }
+  };
+
+  return (
+    <input
+      type="datetime-local"
+      name="time"
+      value={formatTimeForInput(value)}
+      onChange={handleTimeChange}
+      className={`${styles.inputField} ${error ? styles.errorInput : ''}`}
+      required={required}
+      data-testid="time-input"
+    />
+  );
+};
+
+
 const sportOptions = [
   { value: "football", label: "Football" },
   { value: "basketball", label: "Basketball" },
@@ -126,6 +214,34 @@ const FormationSection = ({ team, formations, onFormationsChange }) => {
       </div>
     </div>
   );
+};
+
+// Helper function to format time for submission
+const formatTimeForSubmission = (timeStr) => {
+  if (!timeStr) return '';
+  
+  try {
+    // If it's already in proper format, use it
+    if (timeStr.includes('T')) {
+      const date = new Date(timeStr);
+      if (!isNaN(date.getTime())) {
+        return date.toISOString(); // Full ISO format for API
+      }
+    }
+    
+    // If it's in format like "2.00", convert to proper datetime
+    if (timeStr.includes('.')) {
+      const [hours, minutes] = timeStr.split('.');
+      const date = new Date();
+      date.setHours(parseInt(hours, 10));
+      date.setMinutes(parseInt(minutes, 10));
+      return date.toISOString();
+    }
+  } catch (e) {
+    console.error("Error formatting time for submission:", e);
+  }
+  
+  return timeStr;
 };
 
 const prepareFormData = (formData, imageFiles, formationA, formationB) => {
@@ -452,37 +568,72 @@ export default function SportForm({ Title }) {
     return Object.keys(newErrors).length === 0;
   };
 
-  // Handle form submission
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+  
     if (!validateForm()) {
       toast.error("Please fill in all required fields");
       return;
     }
-
+  
     setIsLoading(true);
-
+  
     try {
+      // Log the time before submission for debugging
+      console.log("Time before formatting:", formData.time);
+      
+      // Preserve the exact hours from the input
+      let timeForSubmission = formData.time;
+      
+      // If we have a datetime string with T separator
+      if (formData.time && formData.time.includes('T')) {
+        const [datePart, timePart] = formData.time.split('T');
+        if (timePart) {
+          const [hours, minutes] = timePart.split(':');
+          console.log(`Submitting with hours: ${hours}, minutes: ${minutes}`);
+          
+          // Create a date with the EXACT selected hours
+          const date = new Date(formData.time);
+          
+          // Force the hours to match what was selected if there's any discrepancy
+          if (date.getHours() !== parseInt(hours, 10)) {
+            console.log(`Correcting hour mismatch from ${date.getHours()} to ${hours}`);
+            date.setHours(parseInt(hours, 10));
+            timeForSubmission = date.toISOString();
+          } else {
+            timeForSubmission = date.toISOString();
+          }
+        }
+      }
+      
+      // Create submission data with the corrected time
+      const submissionData = {
+        ...formData,
+        time: timeForSubmission
+      };
+      
+      console.log("Final time for submission:", submissionData.time);
+  
       const formDataObj = prepareFormData(
-        formData,
+        submissionData,
         imageFiles,
         formationA,
         formationB
       );
-
+  
       let result;
       if (formType === "Edit" && predictionId) {
         result = await updatePrediction(predictionId, formDataObj);
       } else {
         result = await createPrediction(formDataObj);
       }
-
+  
       if (result.success) {
         toast.success(
           `${Title} ${formType === "Edit" ? "updated" : "added"} successfully`
         );
-
+  
         // Navigate back after successful submission
         setTimeout(() => {
           router.back();
@@ -659,15 +810,11 @@ export default function SportForm({ Title }) {
             <label>
               Time {!isEditMode && <span className={styles.required}>*</span>}
             </label>
-            <input
-              type="datetime-local"
-              name="time"
+            <TimeInput
               value={formData.time}
               onChange={handleChange}
-              className={`${styles.inputField} ${
-                errors.time ? styles.errorInput : ""
-              }`}
               required={!isEditMode}
+              error={errors.time}
             />
             {errors.time && (
               <span className={styles.errorText}>{errors.time}</span>

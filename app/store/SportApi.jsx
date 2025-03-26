@@ -1,5 +1,4 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
 
 const SPORTS_API = process.env.NEXT_PUBLIC_SPORTS_API;
 const FOOTBALL_API = process.env.NEXT_PUBLIC_FOOTBALL_API;
