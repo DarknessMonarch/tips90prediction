@@ -14,10 +14,7 @@ import { MdOutlineSettings as SettingsIcon } from "react-icons/md";
 import { LuContact as ContactIcon } from "react-icons/lu";
 import { RiVipLine as VipIcon } from "react-icons/ri";
 import { RiDashboardHorizontalLine as DashboardIcon } from "react-icons/ri";
-import {
-  HiOutlineMenuAlt2 as MenuIcon,
-} from "react-icons/hi";
-import { IoLogOut as LogoutIcon } from "react-icons/io5";
+import { IoLogOut as LogoutIcon, IoMenu as MenuIcon } from "react-icons/io5";
 import { IoBookOutline as TermsIcon } from "react-icons/io5";
 import { PiTelegramLogo as TelegramLogo } from "react-icons/pi";
 import { RiFolderInfoFill as AboutIcon } from "react-icons/ri";
@@ -56,10 +53,12 @@ export default function SideNav() {
   }`;
 
   const openTelegram = () => {
+    if (isMobile && isOpen) toggleOpen();
     window.open("https://t.me/+p9eRLjKRtv45Y2Fk", "_blank");
   };
 
   const handleLogout = useCallback(async () => {
+    if (isMobile && isOpen) toggleOpen();
     try {
       const result = await logout();
       if (result.success) {
@@ -70,7 +69,14 @@ export default function SideNav() {
     } catch (error) {
       toast.error("Logout failed");
     }
-  }, [logout]);
+  }, [logout, isMobile, isOpen, toggleOpen]);
+
+  // Handle link click for mobile
+  const handleLinkClick = useCallback(() => {
+    if (isMobile && isOpen) {
+      toggleOpen();
+    }
+  }, [isMobile, isOpen, toggleOpen]);
 
   return (
     <div className={sidebarClasses}>
@@ -97,6 +103,7 @@ export default function SideNav() {
           <Link
             href="/page/dashboard/?card=revenue"
             className={styles.sideLink}
+            onClick={handleLinkClick}
           >
             <div
               className={`${styles.innerSideLink} ${
@@ -115,7 +122,11 @@ export default function SideNav() {
             </div>
           </Link>
         )}
-        <Link href="/page/banker" className={styles.sideLink}>
+        <Link
+          href="/page/banker"
+          className={styles.sideLink}
+          onClick={handleLinkClick}
+        >
           <div
             className={`${styles.innerSideLink} ${
               pathname === "/page/banker" ||
@@ -132,7 +143,11 @@ export default function SideNav() {
             <h1>Banker of the day</h1>
           </div>
         </Link>
-        <Link href="/page/winning" className={styles.sideLink}>
+        <Link
+          href="/page/winning"
+          className={styles.sideLink}
+          onClick={handleLinkClick}
+        >
           <div
             className={`${styles.innerSideLink} ${
               pathname === "/page/winning" ||
@@ -149,7 +164,11 @@ export default function SideNav() {
             <h1>100% winning tips</h1>
           </div>
         </Link>
-        <Link href="/page/straight" className={styles.sideLink}>
+        <Link
+          href="/page/straight"
+          className={styles.sideLink}
+          onClick={handleLinkClick}
+        >
           <div
             className={`${styles.innerSideLink} ${
               pathname === "/page/straight" ||
@@ -166,7 +185,11 @@ export default function SideNav() {
             <h1>Straight wins</h1>
           </div>
         </Link>
-        <Link href="/page/basketball" className={styles.sideLink}>
+        <Link
+          href="/page/basketball"
+          className={styles.sideLink}
+          onClick={handleLinkClick}
+        >
           <div
             className={`${styles.innerSideLink} ${
               pathname === "/page/basketball" ||
@@ -184,7 +207,11 @@ export default function SideNav() {
           </div>
         </Link>
 
-        <Link href="/page/vip" className={styles.sideLink}>
+        <Link
+          href="/page/vip"
+          className={styles.sideLink}
+          onClick={handleLinkClick}
+        >
           <div
             className={`${styles.innerSideLink} ${
               pathname === "/page/vip" || pathname.startsWith("/page/vip/")
@@ -196,7 +223,11 @@ export default function SideNav() {
             <h1>Vip</h1>
           </div>
         </Link>
-        <Link href="/page/payment" className={styles.sideLink}>
+        <Link
+          href="/page/payment"
+          className={styles.sideLink}
+          onClick={handleLinkClick}
+        >
           <div
             className={`${styles.innerSideLink} ${
               pathname === "/page/payment" ||
@@ -225,7 +256,11 @@ export default function SideNav() {
           </div>
         </div>
 
-        <Link href="/page/about" className={styles.sideLink}>
+        <Link
+          href="/page/about"
+          className={styles.sideLink}
+          onClick={handleLinkClick}
+        >
           <div
             className={`${styles.innerSideLink} ${
               pathname === "/page/about" || pathname.startsWith("/page/about/")
@@ -242,7 +277,11 @@ export default function SideNav() {
           </div>
         </Link>
 
-        <Link href="/page/terms" className={styles.sideLink}>
+        <Link
+          href="/page/terms"
+          className={styles.sideLink}
+          onClick={handleLinkClick}
+        >
           <div
             className={`${styles.innerSideLink} ${
               pathname === "/page/terms" || pathname.startsWith("/page/terms/")
@@ -258,7 +297,11 @@ export default function SideNav() {
             <h1>Terms</h1>
           </div>
         </Link>
-        <Link href="/page/contact" className={styles.sideLink}>
+        <Link
+          href="/page/contact"
+          className={styles.sideLink}
+          onClick={handleLinkClick}
+        >
           <div
             className={`${styles.innerSideLink} ${
               pathname === "/page/contact" ||
@@ -278,7 +321,11 @@ export default function SideNav() {
       </div>
       {isAuth && (
         <div className={styles.sideBottomContainer}>
-          <Link href="/page/settings" className={styles.sideLink}>
+          <Link
+            href="/page/settings"
+            className={styles.sideLink}
+            onClick={handleLinkClick}
+          >
             <div
               className={`${styles.innerSideLink} ${
                 pathname === "/page/settings" ||

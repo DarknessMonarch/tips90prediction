@@ -14,6 +14,7 @@ export default function robots() {
           '/page/winning',
           '/page/dashboard',
           '/page/vip',
+          '/sitemap.xml', 
         ],
         disallow: [
           '/',  
@@ -37,6 +38,6 @@ export default function robots() {
       }
     ],
     sitemap: 'https://tips90predict.com/sitemap.xml',
-    host: 'https://tips90predict.com/'
+    host: 'https://tips90predict.com'
   }
 }

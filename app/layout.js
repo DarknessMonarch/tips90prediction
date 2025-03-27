@@ -89,7 +89,7 @@ export const metadata = {
   },
 
   alternates: {
-    canonical: SITE_URL,
+    canonical: `${SITE_URL}/page/banker`,
   },
 
   icons: {

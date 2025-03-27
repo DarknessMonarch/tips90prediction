@@ -15,10 +15,7 @@ import {
   RiSearch2Line as SearchIcon,
   RiUserLine as UserIcon,
 } from "react-icons/ri";
-import { IoLogOut as LogoutIcon } from "react-icons/io5";
-import {
-  HiOutlineMenuAlt2 as MenuIcon,
-} from "react-icons/hi";
+import { IoLogOut as LogoutIcon, IoMenu as MenuIcon } from "react-icons/io5";
 
 const SearchBar = ({ value, onChange, className }) => (
   <div className={`${styles.searchContainer} ${className}`}>
@@ -39,8 +36,6 @@ const SearchBar = ({ value, onChange, className }) => (
 );
 
 export default function NavbarComponent() {
-
-  
   const [isLoading, setIsLoading] = useState(false);
   const { isOpen, toggleOpen } = useDrawerStore();
   const [isMobile, setIsMobile] = useState(false);
@@ -52,7 +47,6 @@ export default function NavbarComponent() {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
-
 
   useEffect(() => {
     const handleResize = () => {
@@ -94,7 +88,6 @@ export default function NavbarComponent() {
     setSearch(event.target.value);
   }, []);
 
-
   const handleLogout = useCallback(async () => {
     setIsLoading(true);
     try {
@@ -134,14 +127,14 @@ export default function NavbarComponent() {
                 alt="toggle menu icon"
               />
             )}
-         
+
             {isSearchablePage ? (
               <SearchBar
                 value={search}
                 onChange={handleInputChange}
                 className={styles.desktopSearch}
               />
-            ) : isAuth && !isMobile ? ( 
+            ) : isAuth && !isMobile ? (
               <div className={styles.userProfile}>
                 <Image
                   src={profileImage || ProfileImg}
@@ -197,8 +190,8 @@ export default function NavbarComponent() {
                   <Loading />
                 ) : (
                   <>
-                  <LogoutIcon className={styles.userIcon} />
-                  Logout
+                    <LogoutIcon className={styles.userIcon} />
+                    Logout
                   </>
                 )}
               </button>
@@ -230,7 +223,6 @@ export default function NavbarComponent() {
           />
         )}
       </div>
- 
     </>
   );
 }

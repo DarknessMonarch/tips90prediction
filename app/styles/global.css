@@ -27,7 +27,7 @@
     /* global-width */
     --sidenav-width: 90px;
     --termcard-height: 200px;
-    --sidenav-width-mobile: 70px;
+    --sidenav-width-mobile: 60%;
   }
 
   /* ::-webkit-scrollbar {
