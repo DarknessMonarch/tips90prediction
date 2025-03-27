@@ -263,7 +263,7 @@
     text-align: center;
     align-items: center;
     justify-content: center;
-    font-weight: var(--font-poppins-light);
+    font-family: var(--font-poppins-light);
 
   }
 

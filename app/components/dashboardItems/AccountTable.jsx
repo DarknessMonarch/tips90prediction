@@ -336,7 +336,7 @@ export default function AccountTable() {
                         priority
                         className={styles.profileImg}
                       />
-                      {user.username}
+                      {user.username} 
                     </td>
                     <td>{user.email}</td>
                     <td>{user.country}</td>

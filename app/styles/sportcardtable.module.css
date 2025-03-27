@@ -34,6 +34,7 @@
   .sportsTable td {
     text-align: left;
     padding: 12px 8px;
+    text-transform: capitalize;
     font-family: var(--font-poppins-light);
   }
 

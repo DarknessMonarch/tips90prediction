@@ -4,21 +4,31 @@ import { toast } from "sonner";
 import Image from "next/image";
 import date from "date-and-time";
 import { useEffect, useState } from "react";
-import Nothing from "@/app/components/Nothing";
-import { GrAdd as AddIcon } from "react-icons/gr";
-import { FiEdit as EditIcon } from "react-icons/fi";
-import LoadingLogo from "@/app/components/LoadingLogo";
-import EmptySport from "@/public/assets/emptySport.png";
-import styles from "@/app/styles/accounttable.module.css";
-import { usePredictionStore } from "@/app/store/Prediction";
-import { MdDeleteOutline as DeleteIcon } from "react-icons/md";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 
+// Components
+import Nothing from "@/app/components/Nothing";
+import LoadingLogo from "@/app/components/LoadingLogo";
+
+// Icons
+import { GrAdd as AddIcon } from "react-icons/gr";
+import { FiEdit as EditIcon } from "react-icons/fi";
+import { MdDeleteOutline as DeleteIcon } from "react-icons/md";
+
+// Assets and Styles
+import EmptySport from "@/public/assets/emptySport.png";
+import styles from "@/app/styles/accounttable.module.css";
+
+// Store
+import { usePredictionStore } from "@/app/store/Prediction";
+
 export default function FootballTable({ sport }) {
+  // Router and navigation
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
+  // Store values
   const { 
     predictions, 
     fetchPredictions, 
@@ -26,20 +36,22 @@ export default function FootballTable({ sport }) {
     loading 
   } = usePredictionStore();
   
+  // Component state
   const [filteredPredictions, setFilteredPredictions] = useState([]);
   const [hasAttemptedLoad, setHasAttemptedLoad] = useState(false);
   const [userId, setUserId] = useState(null);
   const [isDeleting, setIsDeleting] = useState(false);
-
+  
+  // Date handling
   const currentDate = new Date().toISOString().split("T")[0];
   const dateKey = searchParams.get("date") || currentDate;
 
+  // Event handlers
   const handleDateChange = (e) => {
     const selectedDate = e.target.value;
     const urlParams = new URLSearchParams(searchParams);
     urlParams.set("date", selectedDate);
-    const queryString = urlParams.toString();
-    router.replace(`${pathname}?${queryString}`);
+    router.replace(`${pathname}?${urlParams.toString()}`);
   };
 
   const handleDelete = async (id) => {
@@ -68,14 +80,15 @@ export default function FootballTable({ sport }) {
     router.push(`dashboard/${sport}?form=Edit&id=${id}`, { scroll: false });
   };
 
-  const addTeam = () => {
+  const handleAddTeam = () => {
     router.push(`dashboard/${sport}?form=Add`, { scroll: false });
   };
 
+  // Load predictions on mount and when dependencies change
   useEffect(() => {
     const loadPredictions = async () => {
       try {
-        const result = await fetchPredictions(dateKey, sport);
+        await fetchPredictions(dateKey, sport);
         setHasAttemptedLoad(true);
       } catch (error) {
         console.error("Error loading predictions:", error);
@@ -89,6 +102,7 @@ export default function FootballTable({ sport }) {
     }
   }, [dateKey, sport, fetchPredictions]);
 
+  // Sort predictions by time when predictions array changes
   useEffect(() => {
     if (!Array.isArray(predictions)) {
       setFilteredPredictions([]);
@@ -102,57 +116,37 @@ export default function FootballTable({ sport }) {
     setFilteredPredictions(sortedPredictions);
   }, [predictions]);
 
+  // Render team with image
+  const renderTeamWithImage = (team, image, sportType) => (
+    <div className={styles.teamInner}>
+      <Image
+        src={image}
+        alt={`${team} image`}
+        priority={true}
+        width={30}
+        height={30}
+        className={`${styles.teamImage} ${
+          sportType === "Tennis" || sportType === "Basketball" 
+            ? styles.circularShape 
+            : ""
+        }`}
+      />
+     <span className={styles.teamName}>{team}</span>
+    </div>
+  );
+
+  // Render table rows
   const renderTableContent = () => {
     return filteredPredictions.map((prediction) => (
       <tr key={prediction._id} className={styles.tableRow}>
         <td>
-          <div className={styles.teamInner}>
-            <Image
-              src={prediction.leagueImage}
-              alt={`${prediction.league} image`}
-              priority={true}
-              width={30}
-              height={30}
-              className={styles.teamImage}
-            />
-            {prediction.league}
-          </div>
+          {renderTeamWithImage(prediction.league, prediction.leagueImage)}
         </td>
         <td>
-          <div className={styles.teamInner}>
-            <Image
-              src={prediction.teamAImage}
-              alt={`${prediction.teamA} image`}
-              priority={true}
-              width={30}
-              height={30}
-              className={`${styles.teamImage} ${
-                prediction.sport === "Tennis" ||
-                prediction.sport === "Basketball"
-                  ? styles.circularShape
-                  : ""
-              }`}
-            />
-            {prediction.teamA}
-          </div>
+          {renderTeamWithImage(prediction.teamA, prediction.teamAImage, prediction.sport)}
         </td>
         <td>
-          <div className={styles.teamInner}>
-            <Image
-              src={prediction.teamBImage}
-              alt={`${prediction.teamB} image`}
-              priority={true}
-              width={30}
-              height={30}
-              className={`${styles.teamImage} ${
-                prediction.sport === "Tennis" ||
-                prediction.sport === "Basketball"
-                  ? styles.circularShape
-                  : ""
-              }`}
-            />
-            {prediction.teamB}
-          </div>
+          {renderTeamWithImage(prediction.teamB, prediction.teamBImage, prediction.sport)}
         </td>
         <td>
           {prediction.showScore
@@ -180,17 +174,20 @@ export default function FootballTable({ sport }) {
     ));
   };
 
-  if (loading)
+  // Show loading state
+  if (loading) {
     return (
       <div className={styles.notLoading}>
         <LoadingLogo />
       </div>
     );
+  }
 
   return (
     <div className={styles.dataContainer}>
+      {/* Table header with actions */}
       <div className={styles.tableHeader}>
-        <div className={styles.addContainer} onClick={addTeam}>
+        <div className={styles.addContainer} onClick={handleAddTeam}>
           <AddIcon aria-label="add data" className={styles.copyIcon} />
           Add Team
         </div>
@@ -201,6 +198,8 @@ export default function FootballTable({ sport }) {
           value={dateKey}
         />
       </div>
+
+      {/* Empty state or table */}
       {!filteredPredictions || filteredPredictions.length === 0 ? (
         <Nothing
           Alt="No football prediction"

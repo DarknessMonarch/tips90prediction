@@ -4,7 +4,6 @@ export default function robots() {
       {
         userAgent: '*',
         allow: [
-          '/',
           '/page/football',
           '/page/about',
           '/page/terms',
@@ -17,26 +16,27 @@ export default function robots() {
           '/page/vip',
         ],
         disallow: [
+          '/',  
           '/authentication/*',
           '/api/*',
           '/page/payment/*',
           '/page/settings/*',
           '/not-found',
-          '/*.json$', // Disallow JSON files
+          '/*.json$', 
           '/private/',
         ],
         crawlDelay: 2
       },
       {
         userAgent: 'GPTBot',
-        disallow: ['/']  
+        disallow: ['/']
       },
       {
         userAgent: 'CCBot',
-        disallow: ['/']  
+        disallow: ['/']
       }
     ],
-    sitemap: 'https://www.tips90predict.com/sitemap.xml',
-    host: 'https://www.tips90predict.com'
+    sitemap: 'https://tips90predict.com/sitemap.xml',
+    host: 'https://tips90predict.com/'
   }
 }

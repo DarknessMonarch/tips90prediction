@@ -31,6 +31,7 @@ export default function SignUp() {
   const [referral, setReferral] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const [terms, setTerms] = useState(false);
+  const [usernameError, setUsernameError] = useState("");
   const searchParams = useSearchParams();
   const { register } = useAuthStore();
   const dropdownRef = useRef(null);
@@ -81,9 +82,31 @@ export default function SignUp() {
     }
   };
 
+  const validateUsername = (username) => {
+    if (username.includes('@')) {
+      setUsernameError("Username cannot be an email address");
+      return false;
+    }
+    
+    if (username.length > 6) {
+      setUsernameError("Username cannot exceed 6 characters");
+      return false;
+    }
+    
+    setUsernameError("");
+    return true;
+  };
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    
+    if (name === "username") {
+      const truncatedValue = value.slice(0, 6);
+      setFormData((prev) => ({ ...prev, [name]: truncatedValue }));
+      validateUsername(truncatedValue);
+    } else {
+      setFormData((prev) => ({ ...prev, [name]: value }));
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -93,6 +116,12 @@ export default function SignUp() {
       toast.error("Username is required");
       return;
     }
+    
+    if (!validateUsername(formData.username)) {
+      toast.error(usernameError);
+      return;
+    }
+    
     if (!formData.email.trim()) {
       toast.error("Email is required");
       return;
@@ -185,10 +214,12 @@ export default function SignUp() {
               name="username"
               value={formData.username}
               onChange={handleInputChange}
-              placeholder="Username"
+              placeholder="Username (max 6 chars)"
+              maxLength={6}
               required
             />
           </div>
+          {usernameError && <div className={styles.errorMessage}>{usernameError}</div>}
 
           <div className={styles.authInput}>
             <EmailIcon alt="email icon" className={styles.authIcon} />

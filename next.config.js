@@ -1,4 +1,5 @@
-module.exports = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   output: 'standalone',
   images: {
     remotePatterns: [
@@ -26,5 +27,16 @@ module.exports = {
         port: "",
       }
     ],
+  },
+  async redirects() {
+    return [
+      {
+        source: '/',
+        destination: '/page/banker',
+        permanent: true, 
+      },
+    ]
   }
 };
+
+module.exports = nextConfig;

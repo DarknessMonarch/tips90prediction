@@ -1,4 +1,6 @@
-const DOMAIN = 'https://www.tips90predict.com'
+import { MetadataRoute } from 'next'
+
+const DOMAIN = 'https://tips90predict.com/'
 const DEFAULT_PRIORITY = 0.8
 const HIGH_PRIORITY = 1.0
 
@@ -23,7 +25,7 @@ const authRoutes = [
 ].map(path => createSitemapEntry(path, 'yearly', 0.8))
 
 const mainRoutes = [
-  createSitemapEntry('/', 'always', HIGH_PRIORITY),
+  createSitemapEntry('/page/banker', 'always', HIGH_PRIORITY), 
   createSitemapEntry('/page/dashboard', 'always', 0.9),
   createSitemapEntry('/page/dashboard/?card=link', 'always', 0.9),
 ]

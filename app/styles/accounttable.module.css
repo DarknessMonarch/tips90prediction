@@ -1,22 +1,25 @@
 @media screen {
-  .tableWrapper {
-    overflow-x: auto;
-    overflow-y: auto;
-    border-radius: 15px;
-    height: fit-content;
-    color: var(--dark-light);
+  .accountContainer {
     width: 100%;
-    height: 100%;
+    padding: 0 10px;
   }
 
-
+  .tableWrapper {
+    overflow-x: auto;
+    border-radius: 15px;
+    width: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    margin-bottom: 20px;
+  }
 
   .tableHeader {
     gap: 10px;
-    height: 100px;
+    height: auto;
+    padding: 15px 0;
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    justify-content: end;
+    justify-content: flex-end;
   }
 
   .copyContainer:first-child {
@@ -29,14 +32,16 @@
     border: 1px solid var(--tertiary-light);
     background-color: var(--tertiary-light);
   }
+  
   .copyContainer,
   .addContainer {
     gap: 10px;
-    height: 50px;
+    height: 40px;
+    min-width: 100px;
     display: flex;
-    padding: 10px;
+    padding: 8px 12px;
     cursor: pointer;
-    font-size: 0.7rem;
+    font-size: 0.8rem;
     align-items: center;
     border-radius: 15px;
     justify-content: center;
@@ -44,11 +49,13 @@
     color: var(--tertiary-color);
     font-family: var(--font-poppins-regular);
     border: 1px solid var(--tertiary-color);
+    margin: 5px;
+    transition: all 0.2s ease-in-out;
   }
 
   .copyIcon {
-    height: 20px;
-    width: 20px;
+    height: 18px;
+    width: 18px;
   }
 
   .copyContainer:hover,
@@ -58,9 +65,9 @@
   }
 
   .dateInput {
-    height: 50px;
+    height: 40px;
     border: none;
-    padding: 10px;
+    padding: 8px 12px;
     cursor: pointer;
     border-radius: 15px;
     color: var(--primary-color);
@@ -74,31 +81,45 @@
 
   .sportsTable {
     border-collapse: collapse;
-    min-width: 1000px;
-    table-layout: fixed;
+    width: 100%;
+    table-layout: auto;
   }
 
-  .tableWrapper tbody tr:nth-child(odd) {
+  .tableWrapper tbody tr:nth-child(even) {
     background: var(--background-image);
+  }
+  
+  .tableWrapper tbody tr:nth-child(odd) {
+    background: rgba(255, 255, 255, 0.03);
   }
 
   .sportsTable th {
+    position: sticky;
+    top: 0;
+    z-index: 1;
     overflow: hidden;
+    white-space: nowrap;
     text-align: center;
-    padding: 18px 12px;
+    padding: 15px 10px;
     text-overflow: ellipsis;
     text-transform: capitalize;
     color: var(--primary-color);
-    background: var(--tertiary-color);
+    background: var(--line-color);
     font-family: var(--font-poppins-light);
+    font-size: 0.9rem;
   }
 
   .sportsTable td {
-    width: 100%;
     text-align: center;
-    padding: 18px 12px;
+    padding: 12px 10px;
     text-transform: capitalize;
     font-family: var(--font-poppins-light);
+    color: var(--dark-light);
+    font-size: 0.85rem;
+    vertical-align: middle;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .teamInner {
@@ -110,64 +131,125 @@
   }
 
   .toggleContainer {
-    gap: 10px;
-    height: 40px;
+    gap: 8px;
+    height: 36px;
     display: flex;
     width: fit-content;
     position: relative;
     align-items: center;
-    padding-left: 10px;
+    padding-left: 8px;
     cursor: pointer;
     color: var(--tertiary-color);
     background-image: var(--background-image);
+    border-radius: 18px;
   }
 
   .toggleThumb {
     background-color: var(--tertiary-color);
-    border-radius: 360%;
+    border-radius: 50%;
     position: relative;
-    height: 40px;
-    width: 40px;
+    height: 36px;
+    width: 36px;
+    transition: all 0.2s ease-in-out;
   }
 
   .deleteIcon {
-    font-size: 24px;
+    font-size: 22px;
     cursor: pointer;
     color: var(--loose-color);
+    transition: all 0.2s ease-in-out;
+  }
+
+  .deleteIcon:hover {
+    transform: scale(1.1);
   }
 
   .editIcon {
-    font-size: 24px;
+    font-size: 22px;
     cursor: pointer;
     color: var(--tertiary-color);
+    transition: all 0.2s ease-in-out;
+  }
+
+  .editIcon:hover {
+    transform: scale(1.1);
   }
 
   .userContainer {
-    gap: 10px;
+    gap: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
-  .profileImg , .teamImage {
-    min-width: 40px;
-    min-height: 40px;
+  .profileImg, .teamImage {
+    min-width: 35px;
+    min-height: 35px;
+    border-radius: 50%;
+    object-fit: cover;
   }
 
   .circularShape {
-    border-radius: 360%;
+    border-radius: 50%;
   }
 
   .notLoading {
     display: flex;
-    min-height: 600px;
+    min-height: 400px;
     align-items: center;
     justify-content: center;
   }
 }
 
+/* Small devices: Phones (max-width: 767px) */
+@media only screen and (max-width: 47.938em) {
+  .accountContainer {
+    padding: 0 5px;
+  }
+
+  .tableHeader {
+    justify-content: center;
+    padding: 10px 0;
+  }
+
+  .copyContainer, .addContainer {
+    font-size: 0.7rem;
+    padding: 6px 10px;
+    height: 36px;
+    min-width: 90px;
+  }
+
+  .copyIcon {
+    height: 16px;
+    width: 16px;
+  }
+
+  .tableWrapper {
+    border-radius: 10px;
+    max-height: 70vh;
+  }
+
+  .sportsTable {
+    min-width: 600px
+  }
+
+  .sportsTable th, .sportsTable td {
+    padding: 10px 6px;
+    font-size: 0.75rem;
+  }
+
+  .profileImg, .teamImage {
+    min-width: 30px;
+    min-height: 30px;
+  }
+}
+
 /* Tablet and larger devices (768px and up) */
 @media only screen and (min-width: 48em) {
+  .accountContainer {
+    padding: 0 15px;
+  }
+
   .tableWrapper {
     width: 100%;
   }
@@ -177,11 +259,13 @@
   }
 
   .sportsTable th {
-    padding: 18px 8px;
+    padding: 15px 8px;
+    font-size: 0.85rem;
   }
 
-  .tableRow td {
-    padding: 18px 8px;
+  .sportsTable td {
+    padding: 12px 8px;
+    font-size: 0.8rem;
   }
 }
 
@@ -194,14 +278,44 @@
 
 /* Large screens: Desktop (1024px - 1440px) */
 @media only screen and (min-width: 64.063em) and (max-width: 90em) {
+  .accountContainer {
+    padding: 0 20px;
+  }
+
   .sportsTable {
     min-width: 1000px;
+  }
+
+  .sportsTable th {
+    font-size: 0.9rem;
+    padding: 16px 10px;
+  }
+
+  .sportsTable td {
+    font-size: 0.85rem;
+    padding: 14px 10px;
   }
 }
 
 /* 5k screens and above (1440px+) */
 @media only screen and (min-width: 91em) {
+  .accountContainer {
+    padding: 0 30px;
+    max-width: 1800px;
+    margin: 0 auto;
+  }
+
   .sportsTable {
     min-width: 1200px;
+  }
+
+  .sportsTable th {
+    font-size: 1rem;
+    padding: 18px 12px;
+  }
+
+  .sportsTable td {
+    font-size: 0.9rem;
+    padding: 16px 12px;
   }
 }

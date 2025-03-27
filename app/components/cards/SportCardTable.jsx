@@ -2,16 +2,13 @@
 
 import Image from "next/image";
 import { useMemo } from "react";
-import { DateTime } from "luxon";
+import { formatTimeForDisplay  } from '@/app/utility/timezone';
 import styles from "@/app/styles/sportcardtable.module.css";
 
 export default function SportTable({ games = [] }) {
   const formattedTimes = useMemo(() => {
     return games.map((game) => {
-      const localTime = DateTime.fromISO(game.time).setZone(
-        DateTime.local().zoneName
-      );
-      return localTime.toFormat("HH:mm");
+      return formatTimeForDisplay(game.time, "HH:mm");
     });
   }, [games]);
 
@@ -28,7 +25,6 @@ export default function SportTable({ games = [] }) {
     }
   };
 
-  // Function to render the mobile formations - without team names
   const renderMobileFormations = (formationA, formationB) => {
     return (
       <div className={styles.mobileFormations}>

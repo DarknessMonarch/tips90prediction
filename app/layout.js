@@ -113,26 +113,6 @@ export default function RootLayout({ children }) {
           strategy="lazyOnload"
           src={`https://www.paypal.com/sdk/js?client-id=${process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID}`}
         />
-
-        {/* Google Analytics */}
-        <Script
-          id="ga-tag"
-          strategy="afterInteractive"
-          src="https://www.googletagmanager.com/gtag/js?id=G-"
-        />
-        <Script
-          id="google-analytics"
-          strategy="afterInteractive"
-        >
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-47C54HY3HD', {
-              page_path: window.location.pathname,
-            });
-          `}
-        </Script>
       </head>
       <body
         className={`
