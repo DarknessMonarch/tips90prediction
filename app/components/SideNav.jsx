@@ -71,7 +71,6 @@ export default function SideNav() {
     }
   }, [logout, isMobile, isOpen, toggleOpen]);
 
-  // Handle link click for mobile
   const handleLinkClick = useCallback(() => {
     if (isMobile && isOpen) {
       toggleOpen();
@@ -342,12 +341,13 @@ export default function SideNav() {
               <h1>settings</h1>
             </div>
           </Link>
-          <div onClick={handleLogout}>
+          <div onClick={handleLogout} className={styles.logoutLink}>
             <LogoutIcon
               alt="logout icon"
               aria-label="logout icon"
               className={styles.linkIcon}
             />
+            <h1>Logout</h1>
           </div>
         </div>
       )}

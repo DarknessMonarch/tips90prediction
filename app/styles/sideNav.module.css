@@ -103,7 +103,7 @@
     gap: 20px;
     width: 100%;
     display: flex;
-    align-items: center;
+    align-items: start;
     flex-direction: column;
   }
 
@@ -111,6 +111,28 @@
   .linkIcon {
     font-size: 28px;
     color: var(--dark-light);
+  }
+
+  .logoutLink  {
+    gap: 10px;
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+    color: var(--dark-light);
+  }
+
+  .logoutLink h1 {
+    font-weight: var(--font-poppins-extralight);
+    text-transform: capitalize;
+    font-size: 1rem;
+  }
+
+  .logoutLink:hover .linkIcon {
+    color: var(--tertiary-color);
+  }
+
+  .logoutLink:hover h1 {
+    color: var(--tertiary-color);
   }
 
 }
@@ -150,6 +172,30 @@
   }
 
   .sideLink:hover h1 {
+    color: var(--primary-color);
+  }
+
+  .sideBottomContainer {
+    align-items: center;
+  }
+
+  .logoutLink h1 {
+    display: none;
+  }
+
+  .logoutLink:hover h1 { 
+    font-weight: var(--font-poppins-regular);
+    background-color: var(--tertiary-color);
+    color: var(--primary-color);
+    border-radius: 6px;
+    position: absolute;
+    font-size: 0.8rem;
+    display: flex;
+    padding: 10px;
+    left: 80px;
+  }
+
+  .logoutLink:hover h1 {
     color: var(--primary-color);
   }
   
