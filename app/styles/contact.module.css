@@ -97,6 +97,13 @@
     flex-direction: column;
   }
 
+  .formcontactBtnWrapper span {
+    font-size: .9rem;
+    text-align: center;
+    color: var(--dark-light);
+    font-weight: var(--font-poppins-extralight);
+  }
+
   .formcontactButton {
     gap: 15px;
     width: 100%;

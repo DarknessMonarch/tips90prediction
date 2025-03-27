@@ -7,14 +7,11 @@ import { useAuthStore } from "@/app/store/Auth";
 import Loader from "@/app/components/StateLoader";
 import styles from "@/app/styles/contact.module.css";
 
-//social icons
 import Instagram from "@/public/icons/instagram.svg";
 import Whatsapp from "@/public/icons/whatsapp.svg";
 import Telegram from "@/public/icons/telegram.svg";
 import Twitter from "@/public/icons/twitter.svg";
-import Youtube from "@/public/icons/youtube.svg";
 import Facebook from "@/public/icons/facebook.svg";
-import Threads from "@/public/icons/thread.svg";
 
 import { FaRegUser as UserNameIcon } from "react-icons/fa6";
 import { MdOutlineEmail as EmailIcon } from "react-icons/md";
@@ -57,7 +54,6 @@ export default function Contact() {
       icons: Facebook,
       link: "https://www.facebook.com/profile.php?id=100085636307503",
     },
-
   ];
 
   const openLink = (link) => {
@@ -195,6 +191,8 @@ export default function Contact() {
           >
             {isLoading ? <Loader /> : "Contact Us"}
           </button>
+        
+
           <div className={styles.socialContainer}>
             {socialData.map((data, index) => (
               <div
@@ -212,6 +210,9 @@ export default function Contact() {
               </div>
             ))}
           </div>
+          <span>
+            You can also send us message once you paid for vip to be processed
+          </span>
         </div>
       </div>
     </form>
